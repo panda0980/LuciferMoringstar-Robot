@@ -5,10 +5,9 @@ import logging.config
 logging.config.fileConfig('logging.conf')
 logging.getLogger().setLevel(logging.ERROR)
 
-from pyrogram import Client, __version__
+from pyrogram import Client
 from pyrogram.raw.all import layer
-from LuciferMoringstar_Robot.database.autofilter_db import Media
-from config import API_ID, API_HASH, B_KEYS, bot_info
+from config import API_ID, API_HASH, BOT_TOKEN, 
 import pyromod.listen
 
 class LuciferMoringstar(Client):
@@ -18,25 +17,28 @@ class LuciferMoringstar(Client):
             "LuciferMoringstar_Robot",
             api_id=API_ID,
             api_hash=API_HASH,
-            bot_token=B_KEYS,
+            bot_token=BOT_TOKEN,
             workers=50,
-            plugins={"root": "LuciferMoringstar_Robot"},
+            plugins={"root": "plugins"},
             sleep_threshold=5,
         )
 
     async def start(self):
         await super().start()
-        await Media.ensure_indexes()       
+              
         me = await self.get_me()
-        bot_info.BOT_USERNAME = me.username
-        bot_info.BOT_NAME = me.first_name
+        BOT_USERNAME = me.username
+        BOT_NAME = me.first_name
         self.username = '@' + me.username
-        print(f"{me.first_name} with for Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
+        print(f"{me.first_name} with  started on {me.username}.")
 
     async def stop(self, *args):
         await super().stop()
         print("Bot stopped. Bye.")
 
 
-app = LuciferMoringstar()
+app =  Musicdownloader()
+
+print("bot successfully started")
+
 app.run()
